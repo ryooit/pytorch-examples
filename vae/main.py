@@ -109,7 +109,7 @@ def train(epoch, writer):
                 epoch, batch_idx * len(data), len(train_loader.dataset),
                 100. * batch_idx / len(train_loader),
                 loss.item() / len(data)))
-            writer.add_scalar('train loss', loss.item() / len(data), 
+            writer.add_scalar('train_loss', loss.item() / len(data), 
                     epoch * len(train_loader.dataset) + batch_idx * len(data))
 
     print('====> Epoch: {} Average loss: {:.4f}'.format(
@@ -133,7 +133,7 @@ def test(epoch, writer):
 
     test_loss /= len(test_loader.dataset)
     print('====> Test set loss: {:.4f}'.format(test_loss))
-    writer.add_scalar('test loss', test_loss, epoch)
+    writer.add_scalar('test_loss', test_loss, epoch)
 
 if __name__ == "__main__":
     writer = SummaryWriter("newdir")
