@@ -2,12 +2,14 @@ from __future__ import print_function
 import argparse
 import torch
 import torch.utils.data
+import vessl
 from torch import nn, optim
 from torch.nn import functional as F
 from torchvision import datasets, transforms
 from torchvision.utils import save_image
 from torch.utils.tensorboard import SummaryWriter
 
+vessl.init(tensorboard=True)
 
 parser = argparse.ArgumentParser(description='VAE MNIST Example')
 parser.add_argument('--batch-size', type=int, default=128, metavar='N',
@@ -127,7 +129,7 @@ def test(epoch, writer):
                 comparison = torch.cat([data[:n],
                                       recon_batch.view(args.batch_size, 1, 28, 28)[:n]])
                 save_image(comparison.cpu(),
-                         'results/reconstruction_' + str(epoch) + '.png', nrow=n)
+                         'pytorch-examples/vae/results/reconstruction_' + str(epoch) + '.png', nrow=n)
 
     test_loss /= len(test_loader.dataset)
     print('====> Test set loss: {:.4f}'.format(test_loss))
@@ -142,6 +144,6 @@ if __name__ == "__main__":
             sample = torch.randn(64, 20).to(device)
             sample = model.decode(sample).cpu()
             save_image(sample.view(64, 1, 28, 28),
-                       'results/sample_' + str(epoch) + '.png')
+                       'pytorch-examples/vae/results/sample_' + str(epoch) + '.png')
     writer.flush()
     writer.close()
